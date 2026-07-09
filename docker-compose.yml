@@ -1,12 +1,13 @@
 services:
-  <service name>:
-    image: <which image>
-    restart: <policy>
+  gcloud:
+    image: postgres:16-alpine
+    restart: unless-stopped
     environment:
-      KEY: ${VALUE_FROM_ENV_FILE}
-      ...
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - <volume name>:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
 
 volumes:
-  <volume name>:
+  pgdata:
