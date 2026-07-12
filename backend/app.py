@@ -94,7 +94,12 @@ def login():
 def welcome():
     if not session.get("user_id"):
         return redirect(url_for("login"))
-    return f"<h1>Hi, I'm Mohammad Al Ahmad</h1><p>Signed in as {session['username']}</p>"
+    return render_template("welcome.html", username=session["username"])
 
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    session.clear()
+    return redirect(url_for("login"))
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
