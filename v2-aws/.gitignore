@@ -1,0 +1,7 @@
+*.tfstate
+*.tfstate.*
+.terraform/
+*.tfvars
+!example.tfvars
+.aws/
+credentials
