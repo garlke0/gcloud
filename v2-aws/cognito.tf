@@ -1,5 +1,6 @@
 resource "aws_cognito_user_pool" "main" {
   name = "gcloud-user-pool"
+  deletion_protection = "ACTIVE"
 
   password_policy {
     minimum_length                   = 16
@@ -12,6 +13,9 @@ resource "aws_cognito_user_pool" "main" {
 
   mfa_configuration = "OPTIONAL"
 
+  software_token_mfa_configuration {
+    enabled = true
+  }
   account_recovery_setting {
     recovery_mechanism {
       name     = "verified_email"
