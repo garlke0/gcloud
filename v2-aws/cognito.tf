@@ -23,3 +23,26 @@ resource "aws_cognito_user_pool" "main" {
     }
   }
 }
+resource "aws_cognito_user_pool_client" "web" {
+  name         = "gcloud-web-client"
+  user_pool_id = aws_cognito_user_pool.main.id
+
+  generate_secret = false
+
+  explicit_auth_flows = [
+    "ALLOW_USER_SRP_AUTH",
+    "ALLOW_REFRESH_TOKEN_AUTH",
+  ]
+
+  refresh_token_validity = 7
+  access_token_validity  = 60
+  id_token_validity      = 60
+
+  token_validity_units {
+    refresh_token = "days"
+    access_token  = "minutes"
+    id_token      = "minutes"
+  }
+
+  prevent_user_existence_errors = "ENABLED"
+}
