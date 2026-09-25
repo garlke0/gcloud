@@ -1,3 +1,20 @@
+resource "aws_iam_role" "cloudtrail_reader" {
+  name = "gcloud-v2-cloudtrail-reader"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        }
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
 resource "aws_iam_policy" "cloudtrail_read" {
   name        = "gcloud-v2-cloudtrail-read"
   description = "Read-only access to CloudTrail logs and their KMS key"
@@ -18,9 +35,9 @@ resource "aws_iam_policy" "cloudtrail_read" {
         ]
       },
       {
-        Sid    = "DecryptTrailLogs"
-        Effect = "Allow"
-        Action = "kms:Decrypt"
+        Sid      = "DecryptTrailLogs"
+        Effect   = "Allow"
+        Action   = "kms:Decrypt"
         Resource = aws_kms_key.main.arn
       },
       {
